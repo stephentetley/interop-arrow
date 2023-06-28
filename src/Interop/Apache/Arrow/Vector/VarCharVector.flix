@@ -16,18 +16,32 @@
 
 mod Interop.Apache.Arrow.Vector {
 
-    
+    use Interop.Apache.Arrow.Vector.VarCharVector.{VarCharVector}
+    use Interop.Apache.Arrow.Vector.BaseVariableWidthVector.{BaseVariableWidthVector}
+
     /// Mutable, no alloc
 
     pub enum VarCharVector[_: Region](##org.apache.arrow.vector.VarCharVector)
 
 
+    instance Interop.Apache.Arrow.Vector.SubBaseVariableWidthVector[VarCharVector] {
+        pub def toBaseVariableWidthVector(v: VarCharVector[r]): BaseVariableWidthVector[r] = 
+            let VarCharVector(v1) = v;
+            BaseVariableWidthVector(unchecked_cast(v1 as ##org.apache.arrow.vector.BaseVariableWidthVector))
+
+        pub def fromBaseVariableWidthVector(s: BaseVariableWidthVector[r]): VarCharVector[r] = 
+            let BaseVariableWidthVector(s1) = s;
+            VarCharVector(unchecked_cast(s1 as ##org.apache.arrow.vector.VarCharVector))
+    }
+
 }
 
-mod Interop.Apache.Arrow.Memor.VarCharVector {
+mod Interop.Apache.Arrow.Vector.VarCharVector {
 
     use Interop.Apache.Arrow.Vector.VarCharVector
     use Interop.Apache.Arrow.Vector.VarCharVector.{VarCharVector}
+    use Interop.Apache.Arrow.Memory.BufferAllocator
+    use Interop.Apache.Arrow.Memory.BufferAllocator.{BufferAllocator}
 
 
     pub def getHH(v: VarCharVector[r]): ##org.apache.arrow.vector.VarCharVector = 
@@ -37,6 +51,11 @@ mod Interop.Apache.Arrow.Memor.VarCharVector {
     pub def wrapHH(_: Region[r], prim: ##org.apache.arrow.vector.VarCharVector): VarCharVector[r] = 
         VarCharVector(prim)
 
+    /// Same region as BufferAllocator
+    pub def new(name: String, alloc: BufferAllocator[r]): VarCharVector[r] \ r =
+        import new org.apache.arrow.vector.VarCharVector(String, ##org.apache.arrow.memory.BufferAllocator): ##org.apache.arrow.vector.VarCharVector \ r as new1;
+        let BufferAllocator(alloc1) = alloc;
+        VarCharVector(new1(name, alloc1))
 
 
 }

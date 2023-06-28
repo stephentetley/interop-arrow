@@ -16,15 +16,21 @@
 
 mod Interop.Apache.Arrow.Memory {
 
-    
-    /// Mutable, no alloc
+
+    /// Mutable, interface
 
     pub enum BufferAllocator[_: Region](##org.apache.arrow.memory.BufferAllocator)
 
 
+
+    pub class ImpBufferAllocator[t: Region -> Type] {
+        pub def toBufferAllocator(s: t[r]): BufferAllocator[r]
+        pub def fromBufferAllocator(s: BufferAllocator[r]): t[r]
+    }
+
 }
 
-mod Interop.Apache.Arrow.Memor.BufferAllocator {
+mod Interop.Apache.Arrow.Memory.BufferAllocator {
 
     use Interop.Apache.Arrow.Memory.BufferAllocator
     use Interop.Apache.Arrow.Memory.BufferAllocator.{BufferAllocator}

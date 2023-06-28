@@ -16,15 +16,26 @@
 
 mod Interop.Apache.Arrow.Memory {
 
+    use Interop.Apache.Arrow.Memory.BufferAllocator.{BufferAllocator}
+    use Interop.Apache.Arrow.Memory.RootAllocator.{RootAllocator}
+
     
-    /// Mutable, no alloc
+    /// Mutable, class
 
     pub enum RootAllocator[_: Region](##org.apache.arrow.memory.RootAllocator)
 
+    instance Interop.Apache.Arrow.Memory.ImpBufferAllocator[RootAllocator] {
+        pub def toBufferAllocator(a: RootAllocator[r]): BufferAllocator[r] =
+            let RootAllocator(a1) = a;
+            BufferAllocator(unchecked_cast(a1 as ##org.apache.arrow.memory.BufferAllocator)) 
 
+        pub def fromBufferAllocator(a: BufferAllocator[r]): RootAllocator[r] =
+            let BufferAllocator(a1) = a;
+            RootAllocator(unchecked_cast(a1 as ##org.apache.arrow.memory.RootAllocator)) 
+    }
 }
 
-mod Interop.Apache.Arrow.Memor.RootAllocator {
+mod Interop.Apache.Arrow.Memory.RootAllocator {
 
     use Interop.Apache.Arrow.Memory.RootAllocator
     use Interop.Apache.Arrow.Memory.RootAllocator.{RootAllocator}
@@ -47,6 +58,10 @@ mod Interop.Apache.Arrow.Memor.RootAllocator {
         let RootAllocator(ra1) = ra;
         close(ra1)
 
+    pub def getName(ra: RootAllocator[r]): String \ r = 
+        import org.apache.arrow.memory.RootAllocator.getName(): String \ r;
+        let RootAllocator(ra1) = ra;
+        getName(ra1)
 
 
 }
