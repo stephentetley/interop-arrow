@@ -50,10 +50,11 @@ mod Interop.Apache.Arrow.Vector.BaseVariableWidthVector {
     //     VarCharVector(new1(name, alloc1))
 
 
+
     pub def setAt(ix: Int32, value: Array[Int8, r1], v: BaseVariableWidthVector[r]): Unit \ r + r1 = 
-        import org.apache.arrow.vector.BaseVariableWidthVector.set(Int32, Array[Int8, r1]): Unit \ r + r1;
+        import org.apache.arrow.vector.BaseVariableWidthVector.set(Int32, Array[Int8, r1]): Unit \ r + r1 as set1;
         let BaseVariableWidthVector(v1) = v;
-        set(v1, ix, value)
+        set1(v1, ix, value)
 
     pub def setValueCount(n: Int32, v: BaseVariableWidthVector[r]): Unit \ r = 
         import org.apache.arrow.vector.BaseVariableWidthVector.setValueCount(Int32): Unit \ r;

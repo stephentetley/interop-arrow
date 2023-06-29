@@ -57,5 +57,11 @@ mod Interop.Apache.Arrow.Vector.VarCharVector {
         let BufferAllocator(alloc1) = alloc;
         VarCharVector(new1(name, alloc1))
 
+    /// TODO null...
+    pub def getAt(ix: Int32, v: VarCharVector[r]): Array[Int8, r1] \ r + r1 = 
+        import org.apache.arrow.vector.VarCharVector.get(Int32): Array[Int8, r1] \ r + r1 as get1;
+        let VarCharVector(v1) = v;
+        get1(v1, ix)
+
 
 }
