@@ -43,11 +43,16 @@ mod Interop.Apache.Arrow.Vector.BaseFixedWidthVector {
     pub def wrapHH(_: Region[r], prim: ##org.apache.arrow.vector.BaseFixedWidthVector): BaseFixedWidthVector[r] = 
         BaseFixedWidthVector(prim)
 
-    // /// Same region as BufferAllocator
-    // pub def new(name: String, alloc: BufferAllocator[r]): VarCharVector[r] \ r =
-    //     import new org.apache.arrow.vector.VarCharVector(String, ##org.apache.arrow.memory.BufferAllocator): ##org.apache.arrow.vector.VarCharVector \ r as new1;
-    //     let BufferAllocator(alloc1) = alloc;
-    //     VarCharVector(new1(name, alloc1))
+    pub def allocateNew(v: BaseFixedWidthVector[r]): Unit \ r = 
+        import org.apache.arrow.vector.BaseFixedWidthVector.allocateNew(): Unit \ r;
+        let BaseFixedWidthVector(v1) = v;
+        allocateNew(v1)
+
+    pub def allocateNewWithSize(n: Int32, v: BaseFixedWidthVector[r]): Unit \ r = 
+        import org.apache.arrow.vector.BaseFixedWidthVector.allocateNew(Int32): Unit \ r;
+        let BaseFixedWidthVector(v1) = v;
+        allocateNew(v1, n)
+
 
     pub def reset(v: BaseFixedWidthVector[r]): Unit \ r = 
         import org.apache.arrow.vector.BaseFixedWidthVector.reset(): Unit \ r;
@@ -59,6 +64,12 @@ mod Interop.Apache.Arrow.Vector.BaseFixedWidthVector {
         import org.apache.arrow.vector.BaseFixedWidthVector.set(Int32, Array[Int8, r1], Int32, Int32): Unit \ r + r1 as set1;
         let BaseFixedWidthVector(v1) = v;
         set1(v1, index.index, value, start.start, len.len)
+
+
+    pub def setNullAt(index: {index = Int32}, v: BaseFixedWidthVector[r]): Unit \ r = 
+        import org.apache.arrow.vector.BaseFixedWidthVector.setNull(Int32): Unit \ r;
+        let BaseFixedWidthVector(v1) = v;
+        setNull(v1, index.index)
 
     pub def setValueCount(n: Int32, v: BaseFixedWidthVector[r]): Unit \ r = 
         import org.apache.arrow.vector.BaseFixedWidthVector.setValueCount(Int32): Unit \ r;
