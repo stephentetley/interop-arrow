@@ -24,11 +24,6 @@ mod Interop.Apache.Arrow.Vector.Types.Pojo {
     pub enum ArrowTypeBool(##org.apache.arrow.vector.types.pojo.ArrowType$Bool)
 
 
-    // pub class ImpArrowType[t: Type] {
-    //     pub def toArrowType(s: t): ArrowType
-    //     pub def fromArrowType(s: ArrowType): t
-    // }
-
     instance Interop.Apache.Arrow.Vector.Types.Pojo.SubArrowType[ArrowTypeBool] {
         pub def toArrowType(t: ArrowTypeBool): ArrowType =
             let ArrowTypeBool(t1) = t;
@@ -46,16 +41,28 @@ mod Interop.Apache.Arrow.Vector.Types.Pojo.ArrowTypeBool {
     use Interop.Apache.Arrow.Vector.Types.Pojo.ArrowTypeBool.{ArrowTypeBool}
 
 
-    pub def getHH(s: ArrowTypeBool): ##org.apache.arrow.vector.types.pojo.ArrowType$Bool = 
-        let ArrowTypeBool(s1) = s;
-        s1
+    pub def getHH(t: ArrowTypeBool): ##org.apache.arrow.vector.types.pojo.ArrowType$Bool = 
+        let ArrowTypeBool(t1) = t;
+        t1
 
     pub def wrapHH(prim: ##org.apache.arrow.vector.types.pojo.ArrowType$Bool): ArrowTypeBool = 
         ArrowTypeBool(prim)
 
-    // pub def new(_: Region[r]): Text[r] \ r =
-    //     import new org.apache.arrow.vector.util.Text(): ##org.apache.arrow.vector.util.Text \ r as new1;
-    //     Text(new1())
+    pub def new(): ArrowTypeBool =
+        import new org.apache.arrow.vector.types.pojo.ArrowType$Bool(): ##org.apache.arrow.vector.types.pojo.ArrowType$Bool \ {} as new1;
+        ArrowTypeBool(new1())
+
+    pub def toString(t: ArrowTypeBool): String = 
+        import org.apache.arrow.vector.types.pojo.ArrowType$Bool.toString(): String \ {};
+        let ArrowTypeBool(t1) = t;
+        toString(t1)
+
+
+    pub def equals(x: ArrowTypeBool, y: ArrowTypeBool): Bool =
+        import org.apache.arrow.vector.types.pojo.ArrowType$Bool.equals(##java.lang.Object): Bool \ {};
+        let ArrowTypeBool(x1) = x;
+        let ArrowTypeBool(y1) = y;
+        equals(x1, checked_cast(y1))
 
 
 }
