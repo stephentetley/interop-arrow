@@ -43,20 +43,31 @@ mod Interop.Apache.Arrow.Vector.BaseVariableWidthVector {
     pub def wrapHH(_: Region[r], prim: ##org.apache.arrow.vector.BaseVariableWidthVector): BaseVariableWidthVector[r] = 
         BaseVariableWidthVector(prim)
 
-    // /// Same region as BufferAllocator
-    // pub def new(name: String, alloc: BufferAllocator[r]): VarCharVector[r] \ r =
-    //     import new org.apache.arrow.vector.VarCharVector(String, ##org.apache.arrow.memory.BufferAllocator): ##org.apache.arrow.vector.VarCharVector \ r as new1;
-    //     let BufferAllocator(alloc1) = alloc;
-    //     VarCharVector(new1(name, alloc1))
+
+    pub def close!(v: BaseVariableWidthVector[r]): Unit \ r = 
+        import org.apache.arrow.vector.BaseVariableWidthVector.close(): Unit \ r;
+        let BaseVariableWidthVector(v1) = v;
+        close(v1)
+
+
+    pub def allocateNew(v: BaseVariableWidthVector[r]): Unit \ r = 
+        import org.apache.arrow.vector.BaseVariableWidthVector.allocateNew(): Unit \ r;
+        let BaseVariableWidthVector(v1) = v;
+        allocateNew(v1)
+
+    pub def allocateNewWithSize(n: Int32, v: BaseVariableWidthVector[r]): Unit \ r = 
+        import org.apache.arrow.vector.BaseVariableWidthVector.allocateNew(Int32): Unit \ r;
+        let BaseVariableWidthVector(v1) = v;
+        allocateNew(v1, n)
 
 
 
-    pub def setAt(ix: Int32, value: Array[Int8, r1], v: BaseVariableWidthVector[r]): Unit \ r + r1 = 
+    pub def setAt!(index: {index = Int32}, value: Array[Int8, r1], v: BaseVariableWidthVector[r]): Unit \ r + r1 = 
         import org.apache.arrow.vector.BaseVariableWidthVector.set(Int32, Array[Int8, r1]): Unit \ r + r1 as set1;
         let BaseVariableWidthVector(v1) = v;
-        set1(v1, ix, value)
+        set1(v1, index.index, value)
 
-    pub def setValueCount(n: Int32, v: BaseVariableWidthVector[r]): Unit \ r = 
+    pub def setValueCount!(n: Int32, v: BaseVariableWidthVector[r]): Unit \ r = 
         import org.apache.arrow.vector.BaseVariableWidthVector.setValueCount(Int32): Unit \ r;
         let BaseVariableWidthVector(v1) = v;
         setValueCount(v1, n)

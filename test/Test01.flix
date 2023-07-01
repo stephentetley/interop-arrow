@@ -15,7 +15,7 @@
  */
 
 mod Test01 {
-    
+
     @test
     def test01(): Unit \ IO = region rc {
         let alloc = Interop.Apache.Arrow.Memory.RootAllocator.new(rc);
@@ -28,9 +28,25 @@ mod Test01 {
         Interop.Apache.Arrow.Vector.IntVector.setAt!(index = 2, 3, ivec);
         Interop.Apache.Arrow.Vector.BaseFixedWidthVector.setValueCount!(3, ivec1);
         let str = Interop.Apache.Arrow.Vector.IntVector.toString(ivec); 
-        println("Vector created in memory: ${str}" );
+        println("Vector created in memory: ${str}");
         Interop.Apache.Arrow.Vector.BaseFixedWidthVector.close!(ivec1);
         Interop.Apache.Arrow.Memory.RootAllocator.close!(alloc)
     }
 
+    @test
+    def test02(): Unit \ IO = region rc {
+        let alloc = Interop.Apache.Arrow.Memory.RootAllocator.new(rc);
+        let alloc1 = Interop.Apache.Arrow.Memory.ImpBufferAllocator.toBufferAllocator(alloc);
+        let vcvec = Interop.Apache.Arrow.Vector.VarCharVector.new("variable-size-primitive-layout", alloc1);
+        let vcvec1 = Interop.Apache.Arrow.Vector.SubBaseVariableWidthVector.toBaseVariableWidthVector(vcvec);
+        Interop.Apache.Arrow.Vector.BaseVariableWidthVector.allocateNewWithSize(3, vcvec1);
+        Interop.Apache.Arrow.Vector.BaseVariableWidthVector.setAt!(index = 0, Interop.Flix.Temp.stringGetBytes(rc, "one"), vcvec1);
+        Interop.Apache.Arrow.Vector.BaseVariableWidthVector.setAt!(index = 1, Interop.Flix.Temp.stringGetBytes(rc, "two"), vcvec1);
+        Interop.Apache.Arrow.Vector.BaseVariableWidthVector.setAt!(index = 2, Interop.Flix.Temp.stringGetBytes(rc, "three"), vcvec1);
+        Interop.Apache.Arrow.Vector.BaseVariableWidthVector.setValueCount!(3, vcvec1);
+        let str = Interop.Apache.Arrow.Vector.VarCharVector.toString(vcvec); 
+        println("Vector created in memory: ${str}");
+        Interop.Apache.Arrow.Vector.BaseVariableWidthVector.close!(vcvec1);
+        Interop.Apache.Arrow.Memory.RootAllocator.close!(alloc)
+    }
 }
