@@ -57,17 +57,22 @@ mod Interop.Apache.Arrow.Vector.IntVector {
         let BufferAllocator(alloc1) = alloc;
         IntVector(new1(name, alloc1))
 
+    pub def toString(t: IntVector[r]): String \ r = 
+        import org.apache.arrow.vector.IntVector.toString(): String \ r;
+        let IntVector(t1) = t;
+        toString(t1)
 
-    pub def getAt(ix: Int32, v: IntVector[r]): Result[String, Int32] \ r = 
+
+    pub def getAt(index: {index = Int32}, v: IntVector[r]): Result[String, Int32] \ r = 
         Result.tryCatch(_ -> {
             import org.apache.arrow.vector.IntVector.get(Int32): Int32 \ r as get1;
             let IntVector(v1) = v;
-            get1(v1, ix)
+            get1(v1, index.index)
         })
 
-    pub def setAt(ix: Int32, value: Int32, v: IntVector[r]): Unit \ r = 
+    pub def setAt!(index: {index = Int32}, value: Int32, v: IntVector[r]): Unit \ r = 
         import org.apache.arrow.vector.IntVector.set(Int32, Int32): Unit \ r as set1;
         let IntVector(v1) = v;
-        set1(v1, ix, value)
+        set1(v1, index.index, value)
 
 }

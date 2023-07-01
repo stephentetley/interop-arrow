@@ -48,12 +48,12 @@ mod Interop.Apache.Arrow.Memory.RootAllocator {
     pub def wrapHH(_: Region[r], prim: ##org.apache.arrow.memory.RootAllocator): RootAllocator[r] = 
         RootAllocator(prim)
 
-    pub def new(): RootAllocator[r] \ r = 
+    pub def new(_: Region[r]): RootAllocator[r] \ r = 
         import new org.apache.arrow.memory.RootAllocator(): ##org.apache.arrow.memory.RootAllocator \ r as new1;
         RootAllocator(new1())
 
 
-    pub def close(ra: RootAllocator[r]): Unit \ r = 
+    pub def close!(ra: RootAllocator[r]): Unit \ r = 
         import org.apache.arrow.memory.RootAllocator.close(): Unit \ r;
         let RootAllocator(ra1) = ra;
         close(ra1)

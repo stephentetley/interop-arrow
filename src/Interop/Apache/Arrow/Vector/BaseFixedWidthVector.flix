@@ -43,6 +43,12 @@ mod Interop.Apache.Arrow.Vector.BaseFixedWidthVector {
     pub def wrapHH(_: Region[r], prim: ##org.apache.arrow.vector.BaseFixedWidthVector): BaseFixedWidthVector[r] = 
         BaseFixedWidthVector(prim)
 
+    pub def close!(v: BaseFixedWidthVector[r]): Unit \ r = 
+        import org.apache.arrow.vector.BaseFixedWidthVector.close(): Unit \ r;
+        let BaseFixedWidthVector(v1) = v;
+        close(v1)
+
+
     pub def allocateNew(v: BaseFixedWidthVector[r]): Unit \ r = 
         import org.apache.arrow.vector.BaseFixedWidthVector.allocateNew(): Unit \ r;
         let BaseFixedWidthVector(v1) = v;
@@ -54,24 +60,25 @@ mod Interop.Apache.Arrow.Vector.BaseFixedWidthVector {
         allocateNew(v1, n)
 
 
-    pub def reset(v: BaseFixedWidthVector[r]): Unit \ r = 
+
+    pub def reset!(v: BaseFixedWidthVector[r]): Unit \ r = 
         import org.apache.arrow.vector.BaseFixedWidthVector.reset(): Unit \ r;
         let BaseFixedWidthVector(v1) = v;
         reset(v1)
 
 
-    pub def setAt(index: {index = Int32}, start: {start = Int32}, len: {len = Int32}, value: Array[Int8, r1], v: BaseFixedWidthVector[r]): Unit \ r + r1 = 
+    pub def setAt!(index: {index = Int32}, start: {start = Int32}, len: {len = Int32}, value: Array[Int8, r1], v: BaseFixedWidthVector[r]): Unit \ r + r1 = 
         import org.apache.arrow.vector.BaseFixedWidthVector.set(Int32, Array[Int8, r1], Int32, Int32): Unit \ r + r1 as set1;
         let BaseFixedWidthVector(v1) = v;
         set1(v1, index.index, value, start.start, len.len)
 
 
-    pub def setNullAt(index: {index = Int32}, v: BaseFixedWidthVector[r]): Unit \ r = 
+    pub def setNullAt!(index: {index = Int32}, v: BaseFixedWidthVector[r]): Unit \ r = 
         import org.apache.arrow.vector.BaseFixedWidthVector.setNull(Int32): Unit \ r;
         let BaseFixedWidthVector(v1) = v;
         setNull(v1, index.index)
 
-    pub def setValueCount(n: Int32, v: BaseFixedWidthVector[r]): Unit \ r = 
+    pub def setValueCount!(n: Int32, v: BaseFixedWidthVector[r]): Unit \ r = 
         import org.apache.arrow.vector.BaseFixedWidthVector.setValueCount(Int32): Unit \ r;
         let BaseFixedWidthVector(v1) = v;
         setValueCount(v1, n)

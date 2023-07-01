@@ -43,7 +43,7 @@ mod Interop.Apache.Arrow.Memory.BufferAllocator {
     pub def wrapHH(_: Region[r], prim: ##org.apache.arrow.memory.BufferAllocator): BufferAllocator[r] = 
         BufferAllocator(prim)
 
-    pub def close(ba: BufferAllocator[r]): Unit \ r = 
+    pub def close!(ba: BufferAllocator[r]): Unit \ r = 
         import org.apache.arrow.memory.BufferAllocator.close(): Unit \ r;
         let BufferAllocator(ba1) = ba;
         close(ba1)
