@@ -49,4 +49,21 @@ mod Test01 {
         Interop.Apache.Arrow.Vector.BaseVariableWidthVector.close!(vcvec1);
         Interop.Apache.Arrow.Memory.RootAllocator.close!(alloc)
     }
+
+    @test
+    def test03(): Unit \ IO = 
+        let metadata = Map#{"A" => "Id Card", "B" => "Passport", "C" => "Visa"};
+        let document = 
+            Interop.Apache.Arrow.Vector.Types.Pojo.Field.new("document", 
+                Interop.Apache.Arrow.Vector.Types.Pojo.FieldType.newWithMetaData(true, 
+                    Interop.Apache.Arrow.Vector.Types.Pojo.SubArrowType.toArrowType(Interop.Apache.Arrow.Vector.Types.Pojo.ArrowTypeUtf8.new()), 
+                    None,
+                    metadata
+                ),
+                Nil        
+            );
+        println("Field created: ${document}, Metadata: ${metadata}")
+
+
+
 }
