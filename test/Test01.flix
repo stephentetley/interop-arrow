@@ -40,9 +40,9 @@ mod Test01 {
         let vcvec = Interop.Apache.Arrow.Vector.VarCharVector.new("variable-size-primitive-layout", alloc1);
         let vcvec1 = Interop.Apache.Arrow.Vector.SubBaseVariableWidthVector.toBaseVariableWidthVector(vcvec);
         Interop.Apache.Arrow.Vector.BaseVariableWidthVector.allocateNewWithSize(3, vcvec1);
-        Interop.Apache.Arrow.Vector.BaseVariableWidthVector.setAt!(index = 0, Interop.Flix.Temp.stringGetBytes(rc, "one"), vcvec1);
-        Interop.Apache.Arrow.Vector.BaseVariableWidthVector.setAt!(index = 1, Interop.Flix.Temp.stringGetBytes(rc, "two"), vcvec1);
-        Interop.Apache.Arrow.Vector.BaseVariableWidthVector.setAt!(index = 2, Interop.Flix.Temp.stringGetBytes(rc, "three"), vcvec1);
+        Interop.Apache.Arrow.Vector.BaseVariableWidthVector.setAt!(index = 0, Interop.Lang.StringZ.getBytes(rc, "one"), vcvec1);
+        Interop.Apache.Arrow.Vector.BaseVariableWidthVector.setAt!(index = 1, Interop.Lang.StringZ.getBytes(rc, "two"), vcvec1);
+        Interop.Apache.Arrow.Vector.BaseVariableWidthVector.setAt!(index = 2, Interop.Lang.StringZ.getBytes(rc, "three"), vcvec1);
         Interop.Apache.Arrow.Vector.BaseVariableWidthVector.setValueCount!(3, vcvec1);
         let str = Interop.Apache.Arrow.Vector.VarCharVector.toString(vcvec); 
         println("Vector created in memory: ${str}");
@@ -63,6 +63,16 @@ mod Test01 {
                 Nil        
             );
         println("Field created: ${document}, Metadata: ${metadata}")
+
+    @test
+    def test04(): Unit \ IO = 
+        use Interop.Apache.Arrow.Vector.Types.Pojo.Field.{new => newField};
+        use Interop.Apache.Arrow.Vector.Types.Pojo.FieldType.{nullable};
+        let metadata = Map#{"K1" => "V1", "K2" => "V2"};
+        let a = newField("A", nullable(Interop.Apache.Arrow.Vector.Types.Pojo.SubArrowType.toArrowType(Interop.Apache.Arrow.Vector.Types.Pojo.ArrowTypeInt.new(32, true))), Nil);
+        let b = newField("B", nullable(Interop.Apache.Arrow.Vector.Types.Pojo.SubArrowType.toArrowType(Interop.Apache.Arrow.Vector.Types.Pojo.ArrowTypeUtf8.new())), Nil);
+        let schema = Interop.Apache.Arrow.Vector.Types.Pojo.Schema.newWithMetadata(List#{a, b}, metadata);
+        println("Schema created: ${schema}")
 
 
 

@@ -74,6 +74,18 @@ mod Interop.Apache.Arrow.Vector.Types.Pojo.Field {
         let Field(s1) = s;
         toString(s1)
 
+
+    pub def notNullable(name: String, typ: ArrowType): Field = 
+        import static org.apache.arrow.vector.types.pojo.Field.notNullable(String, ##org.apache.arrow.vector.types.pojo.ArrowType): ##org.apache.arrow.vector.types.pojo.Field \ {};
+        let ArrowType(typ1) = typ;
+        Field(notNullable(name, typ1))
+
+    pub def nullable(name: String, typ: ArrowType): Field = 
+        import static org.apache.arrow.vector.types.pojo.Field.nullable(String, ##org.apache.arrow.vector.types.pojo.ArrowType): ##org.apache.arrow.vector.types.pojo.Field \ {};
+        let ArrowType(typ1) = typ;
+        Field(nullable(name, typ1))
+
+
     pub def getName(s: Field): String = 
         import org.apache.arrow.vector.types.pojo.Field.getName(): String \ {};
         let Field(s1) = s;

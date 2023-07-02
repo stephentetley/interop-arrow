@@ -21,6 +21,10 @@ mod Interop.Apache.Arrow.Vector.Types.Pojo {
 
     pub enum FieldType(##org.apache.arrow.vector.types.pojo.FieldType)
 
+    instance ToString[FieldType] {
+        pub def toString(x: FieldType): String = 
+            Interop.Apache.Arrow.Vector.Types.Pojo.FieldType.toString(x)
+    }
 
 }
 
@@ -45,16 +49,16 @@ mod Interop.Apache.Arrow.Vector.Types.Pojo.FieldType {
     pub def new(nullable: Bool, arrowType: ArrowType, encoding: Option[DictionaryEncoding]): FieldType = 
         import new org.apache.arrow.vector.types.pojo.FieldType(Bool, ##org.apache.arrow.vector.types.pojo.ArrowType, ##org.apache.arrow.vector.types.pojo.DictionaryEncoding): ##org.apache.arrow.vector.types.pojo.FieldType \ {} as new1;
         let ArrowType(ty1) = arrowType;
-        let enc1 = Interop.Flix.Temp.optionToNullable(encoding, x -> {let DictionaryEncoding(x1) = x; x1});
+        let enc1 = Interop.Flix.Util.optionToNullable(encoding, x -> {let DictionaryEncoding(x1) = x; x1});
         FieldType(new1(nullable, ty1, enc1))
 
-    pub def newWithMetaData(nullable: Bool, arrowType: ArrowType, encoding: Option[DictionaryEncoding], metadata: Map[String, String]): FieldType = region rc {
+    pub def newWithMetaData(nullable: Bool, arrowType: ArrowType, encoding: Option[DictionaryEncoding], metadata: Map[String, String]): FieldType = 
         import new org.apache.arrow.vector.types.pojo.FieldType(Bool, ##org.apache.arrow.vector.types.pojo.ArrowType, ##org.apache.arrow.vector.types.pojo.DictionaryEncoding, ##java.util.Map): ##org.apache.arrow.vector.types.pojo.FieldType \ {} as new1;
         let ArrowType(ty1) = arrowType;
-        let enc1 = Interop.Flix.Temp.optionToNullable(encoding, x -> {let DictionaryEncoding(x1) = x; x1});
-        let meta1 = Interop.Util.MapZ.fromFlixMapViaHashMap(rc, metadata) |> Interop.Util.MapZ.getHH;
+        let enc1 = Interop.Flix.Util.optionToNullable(encoding, x -> {let DictionaryEncoding(x1) = x; x1});
+        let meta1 = Interop.Util.MapZ.fromFlixMapViaHashMapHH(metadata);
         FieldType(new1(nullable, ty1, enc1, meta1))
-    }
+
 
     pub def equals(x: FieldType, y: FieldType): Bool =
         import org.apache.arrow.vector.types.pojo.FieldType.equals(##java.lang.Object): Bool \ {};
@@ -67,6 +71,17 @@ mod Interop.Apache.Arrow.Vector.Types.Pojo.FieldType {
         let FieldType(s1) = s;
         toString(s1)
 
+
+    pub def notNullable(typ: ArrowType): FieldType = 
+        import static org.apache.arrow.vector.types.pojo.FieldType.notNullable(##org.apache.arrow.vector.types.pojo.ArrowType): ##org.apache.arrow.vector.types.pojo.FieldType \ {};
+        let ArrowType(typ1) = typ;
+        FieldType(notNullable(typ1))
+
+    pub def nullable(typ: ArrowType): FieldType = 
+        import static org.apache.arrow.vector.types.pojo.FieldType.nullable(##org.apache.arrow.vector.types.pojo.ArrowType): ##org.apache.arrow.vector.types.pojo.FieldType \ {};
+        let ArrowType(typ1) = typ;
+        FieldType(nullable(typ1))
+
     pub def getType(s: FieldType): ArrowType = 
         import org.apache.arrow.vector.types.pojo.FieldType.getType(): ##org.apache.arrow.vector.types.pojo.ArrowType \ {};
         let FieldType(s1) = s;
@@ -77,4 +92,5 @@ mod Interop.Apache.Arrow.Vector.Types.Pojo.FieldType {
         let FieldType(s1) = s;
         isNullable(s1)
 
+    
 }
