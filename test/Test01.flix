@@ -15,6 +15,9 @@
  */
 
 mod Test01 {
+    
+    use Interop.Apache.Arrow.Vector.IntVector
+    use Interop.Apache.Arrow.Vector.VarCharVector
 
     @test
     def test01(): Unit \ IO = region rc {
@@ -74,6 +77,37 @@ mod Test01 {
         let schema = Interop.Apache.Arrow.Vector.Types.Pojo.Schema.newWithMetadata(List#{a, b}, metadata);
         println("Schema created: ${schema}")
 
-
+    @test
+    def test05(): Unit \ IO = region rc {
+        use Interop.Apache.Arrow.Vector.Types.Pojo.Field.{new => newField};
+        use Interop.Apache.Arrow.Vector.Types.Pojo.FieldType.{nullable};
+        let age = newField("age", nullable(Interop.Apache.Arrow.Vector.Types.Pojo.SubArrowType.toArrowType(Interop.Apache.Arrow.Vector.Types.Pojo.ArrowTypeInt.new(32, true))), Nil);
+        let name = newField("name", nullable(Interop.Apache.Arrow.Vector.Types.Pojo.SubArrowType.toArrowType(Interop.Apache.Arrow.Vector.Types.Pojo.ArrowTypeUtf8.new())), Nil);
+        let schema = Interop.Apache.Arrow.Vector.Types.Pojo.Schema.new(List#{age, name});
+        
+        let alloc = Interop.Apache.Arrow.Memory.RootAllocator.new(rc);
+        let alloc1 = Interop.Apache.Arrow.Memory.ImpBufferAllocator.toBufferAllocator(alloc);
+        let root = Interop.Apache.Arrow.Vector.VectorSchemaRoot.create(schema, alloc1);
+        let ageVector: IntVector[rc] = 
+            Interop.Apache.Arrow.Vector.VectorSchemaRoot.getVectorByName("age", root) |> Interop.Apache.Arrow.Vector.ImpFieldVector.fromFieldVector;
+        let ageVector1 = Interop.Apache.Arrow.Vector.SubBaseFixedWidthVector.toBaseFixedWidthVector(ageVector);
+        let nameVector: VarCharVector[rc] = 
+            Interop.Apache.Arrow.Vector.VectorSchemaRoot.getVectorByName("name", root) |> Interop.Apache.Arrow.Vector.ImpFieldVector.fromFieldVector;
+        let nameVector1 = Interop.Apache.Arrow.Vector.SubBaseVariableWidthVector.toBaseVariableWidthVector(nameVector);
+        Interop.Apache.Arrow.Vector.VectorSchemaRoot.setRowCount!(3, root);
+        Interop.Apache.Arrow.Vector.BaseFixedWidthVector.allocateNewWithSize(3, ageVector1);
+        Interop.Apache.Arrow.Vector.IntVector.setAt!(index = 0, 10, ageVector);
+        Interop.Apache.Arrow.Vector.IntVector.setAt!(index = 1, 20, ageVector);
+        Interop.Apache.Arrow.Vector.IntVector.setAt!(index = 2, 30, ageVector);
+        Interop.Apache.Arrow.Vector.BaseVariableWidthVector.allocateNewWithSize(3, nameVector1);
+        Interop.Apache.Arrow.Vector.BaseVariableWidthVector.setAt!(index = 0, Interop.Flix.Temp.getBytesWithCharset(rc, Interop.NIO.Charset.StandardCharsets.utf_8(), "Dave"), nameVector1);
+        Interop.Apache.Arrow.Vector.BaseVariableWidthVector.setAt!(index = 1, Interop.Flix.Temp.getBytesWithCharset(rc, Interop.NIO.Charset.StandardCharsets.utf_8(), "Peter"), nameVector1);
+        Interop.Apache.Arrow.Vector.BaseVariableWidthVector.setAt!(index = 2, Interop.Flix.Temp.getBytesWithCharset(rc, Interop.NIO.Charset.StandardCharsets.utf_8(), "Mary"), nameVector1);
+        println("VectorSchemaRoot created:");
+        println(Interop.Apache.Arrow.Vector.VectorSchemaRoot.contentToTSVString(root));
+        Interop.Apache.Arrow.Vector.BaseFixedWidthVector.close!(ageVector1);
+        Interop.Apache.Arrow.Vector.BaseVariableWidthVector.close!(nameVector1);
+        Interop.Apache.Arrow.Memory.RootAllocator.close!(alloc)
+    }
 
 }

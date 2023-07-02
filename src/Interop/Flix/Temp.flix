@@ -17,11 +17,18 @@
 mod Interop.Flix.Temp {
     
     use Interop.Flix.Marshal
-
+    use Interop.NIO.Charset.Charset
+    use Interop.NIO.Charset.Charset.{Charset}
 
     pub def listToNullable(rc: Region[r], xs: List[a]): ##java.util.List \ r with Marshal[a] = match xs {
         case Nil => unchecked_cast(null as ##java.util.List)
         case _   => Interop.Util.ListZ.fromFoldableViaArrayList(rc, xs) |> Interop.Util.ListZ.getHH
     }
+
+    pub def getBytesWithCharset(_: Region[r], cs: Charset, s: String): Array[Int8, r] \ r = 
+        import java.lang.String.getBytes(##java.nio.charset.Charset): Array[Int8, r] \ r ;
+        let Charset(cs1) = cs;
+        getBytes(s, cs1)
+
 
 }

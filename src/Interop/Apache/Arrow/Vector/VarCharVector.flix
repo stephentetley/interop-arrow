@@ -18,6 +18,7 @@ mod Interop.Apache.Arrow.Vector {
 
     use Interop.Apache.Arrow.Vector.VarCharVector.{VarCharVector}
     use Interop.Apache.Arrow.Vector.BaseVariableWidthVector.{BaseVariableWidthVector}
+    use Interop.Apache.Arrow.Vector.FieldVector.{FieldVector}
 
     /// Mutable, no alloc
 
@@ -31,6 +32,16 @@ mod Interop.Apache.Arrow.Vector {
 
         pub def fromBaseVariableWidthVector(s: BaseVariableWidthVector[r]): VarCharVector[r] = 
             let BaseVariableWidthVector(s1) = s;
+            VarCharVector(unchecked_cast(s1 as ##org.apache.arrow.vector.VarCharVector))
+    }
+
+    instance Interop.Apache.Arrow.Vector.ImpFieldVector[VarCharVector] {
+        pub def toFieldVector(v: VarCharVector[r]): FieldVector[r] = 
+            let VarCharVector(v1) = v;
+            FieldVector(unchecked_cast(v1 as ##org.apache.arrow.vector.FieldVector))
+
+        pub def fromFieldVector(s: FieldVector[r]): VarCharVector[r] = 
+            let FieldVector(s1) = s;
             VarCharVector(unchecked_cast(s1 as ##org.apache.arrow.vector.VarCharVector))
     }
 
