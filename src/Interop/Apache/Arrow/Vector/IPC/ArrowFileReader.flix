@@ -16,11 +16,23 @@
 
 mod Interop.Apache.Arrow.Vector.IPC {
 
+    use Interop.Apache.Arrow.Vector.IPC.ArrowFileReader.{ArrowFileReader}
+    use Interop.Apache.Arrow.Vector.IPC.ArrowReader.{ArrowReader}
     
     /// Mutable, class
 
     pub enum ArrowFileReader[_: Region](##org.apache.arrow.vector.ipc.ArrowFileReader)
 
+
+    instance SubArrowReader[ArrowFileReader] {
+        pub def toArrowReader(rd: ArrowFileReader[r]): ArrowReader[r] = 
+            let ArrowFileReader(rd1) = rd;
+            ArrowReader(unchecked_cast(rd1 as ##org.apache.arrow.vector.ipc.ArrowReader))
+        
+        pub def fromArrowReader(rd: ArrowReader[r]): ArrowFileReader[r] = 
+            let ArrowReader(rd1) = rd;
+            ArrowFileReader(unchecked_cast(rd1 as ##org.apache.arrow.vector.ipc.ArrowFileReader))
+    }
 
 }
 

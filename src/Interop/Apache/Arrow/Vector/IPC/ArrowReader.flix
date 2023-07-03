@@ -21,6 +21,10 @@ mod Interop.Apache.Arrow.Vector.IPC {
 
     pub enum ArrowReader[_: Region](##org.apache.arrow.vector.ipc.ArrowReader)
 
+    pub class SubArrowReader[t: Region -> Type] {
+        pub def toArrowReader(s: t[r]): ArrowReader[r]
+        pub def fromArrowReader(s: ArrowReader[r]): t[r]
+    }
 
 }
 

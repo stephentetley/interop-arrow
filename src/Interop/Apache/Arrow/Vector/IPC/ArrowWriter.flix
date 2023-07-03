@@ -21,6 +21,10 @@ mod Interop.Apache.Arrow.Vector.IPC {
 
     pub enum ArrowWriter[_: Region](##org.apache.arrow.vector.ipc.ArrowWriter)
 
+    pub class SubArrowWriter[t: Region -> Type] {
+        pub def toArrowWriter(s: t[r]): ArrowWriter[r]
+        pub def fromArrowWriter(s: ArrowWriter[r]): t[r]
+    }
 
 }
 
@@ -28,6 +32,8 @@ mod Interop.Apache.Arrow.Vector.IPC.ArrowWriter {
 
     use Interop.Apache.Arrow.Vector.IPC.ArrowWriter 
     use Interop.Apache.Arrow.Vector.IPC.ArrowWriter.{ArrowWriter}
+    use Interop.Apache.Arrow.Vector.IPC.DictionaryProvider 
+    use Interop.Apache.Arrow.Vector.IPC.DictionaryProvider.{DictionaryProvider}
 
 
     pub def getHH(w: ArrowWriter[r]): ##org.apache.arrow.vector.ipc.ArrowWriter = 
@@ -36,6 +42,10 @@ mod Interop.Apache.Arrow.Vector.IPC.ArrowWriter {
 
     pub def wrapHH(_: Region[r], prim: ##org.apache.arrow.vector.ipc.ArrowWriter): ArrowWriter[r] = 
         ArrowWriter(prim)
+
+
+    // pub def new(root: VectorSchemaRoot, provider: Option[DictionaryProvider[r]], wbc: WritableByteChannel[r]): ArrowWriter[r] = 
+    //     ???
 
 
     pub def close!(v: ArrowWriter[r]): Unit \ r = 

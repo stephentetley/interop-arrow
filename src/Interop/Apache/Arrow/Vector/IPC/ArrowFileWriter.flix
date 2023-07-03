@@ -16,12 +16,22 @@
 
 mod Interop.Apache.Arrow.Vector.IPC {
 
+    use Interop.Apache.Arrow.Vector.IPC.ArrowFileWriter.{ArrowFileWriter}
+    use Interop.Apache.Arrow.Vector.IPC.ArrowWriter.{ArrowWriter}
     
     /// Mutable, class
 
     pub enum ArrowFileWriter[_: Region](##org.apache.arrow.vector.ipc.ArrowFileWriter)
 
-
+    instance SubArrowWriter[ArrowFileWriter] {
+        pub def toArrowWriter(wr: ArrowFileWriter[r]): ArrowWriter[r] = 
+            let ArrowFileWriter(wr1) = wr;
+            ArrowWriter(unchecked_cast(wr1 as ##org.apache.arrow.vector.ipc.ArrowWriter))
+        
+        pub def fromArrowWriter(wr: ArrowWriter[r]): ArrowFileWriter[r] = 
+            let ArrowWriter(wr1) = wr;
+            ArrowFileWriter(unchecked_cast(wr1 as ##org.apache.arrow.vector.ipc.ArrowFileWriter))
+    }
 }
 
 mod Interop.Apache.Arrow.Vector.IPC.ArrowFileWriter {
