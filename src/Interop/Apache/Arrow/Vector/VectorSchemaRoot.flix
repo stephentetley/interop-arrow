@@ -70,7 +70,7 @@ mod Interop.Apache.Arrow.Vector.VectorSchemaRoot {
         let VectorSchemaRoot(vsr1) = vsr;
         Schema(getSchema(vsr1))
 
-    pub def getVectorByName(name: String, vsr: VectorSchemaRoot[r]): FieldVector[r] \ r = 
+    pub def getVectorNamed(name: String, vsr: VectorSchemaRoot[r]): FieldVector[r] \ r = 
         import org.apache.arrow.vector.VectorSchemaRoot.getVector(String): ##org.apache.arrow.vector.FieldVector \ r;
         let VectorSchemaRoot(vsr1) = vsr;
         FieldVector(getVector(vsr1, name))

@@ -16,11 +16,23 @@
 
 mod Interop.Apache.Arrow.Vector.Types.Pojo {
 
-    
+    use Interop.Apache.Arrow.Vector.Types.Pojo.ArrowTypeID.{ArrowTypeID}
+    use Interop.Lang.Enum
+    use Interop.Lang.Enum.{Enum}
+
     /// Immutable
 
     pub enum ArrowTypeID(##org.apache.arrow.vector.types.pojo.ArrowType$ArrowTypeID)
 
+    instance Interop.Lang.SubEnum[ArrowTypeID] {
+        pub def toEnum(x: ArrowTypeID): Enum = 
+            let ArrowTypeID(x1) = x;
+            Enum(unchecked_cast(x1 as ##java.lang.Enum))
+
+        pub def fromEnum(x: Enum): ArrowTypeID = 
+            let Enum(x1) = x;
+            ArrowTypeID(unchecked_cast(x1 as ##org.apache.arrow.vector.types.pojo.ArrowType$ArrowTypeID))
+    }
 
 }
 
@@ -37,7 +49,7 @@ mod Interop.Apache.Arrow.Vector.Types.Pojo.ArrowTypeID {
     pub def wrapHH(prim: ##org.apache.arrow.vector.types.pojo.ArrowType$ArrowTypeID): ArrowTypeID = 
         ArrowTypeID(prim)
 
-    pub def binary(): ArrowTypeID = 
+    pub def tid_Binary(): ArrowTypeID = 
         import static get org.apache.arrow.vector.types.pojo.ArrowType$ArrowTypeID.Binary: ##org.apache.arrow.vector.types.pojo.ArrowType$ArrowTypeID \ {} as get_Binary;
         ArrowTypeID(get_Binary())
 

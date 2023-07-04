@@ -89,10 +89,10 @@ mod Test01 {
         let alloc1 = Interop.Apache.Arrow.Memory.ImpBufferAllocator.toBufferAllocator(alloc);
         let root = Interop.Apache.Arrow.Vector.VectorSchemaRoot.create(schema, alloc1);
         let ageVector: IntVector[rc] = 
-            Interop.Apache.Arrow.Vector.VectorSchemaRoot.getVectorByName("age", root) |> Interop.Apache.Arrow.Vector.ImpFieldVector.fromFieldVector;
+            Interop.Apache.Arrow.Vector.VectorSchemaRoot.getVectorNamed("age", root) |> Interop.Apache.Arrow.Vector.ImpFieldVector.fromFieldVector;
         let ageVector1 = Interop.Apache.Arrow.Vector.SubBaseFixedWidthVector.toBaseFixedWidthVector(ageVector);
         let nameVector: VarCharVector[rc] = 
-            Interop.Apache.Arrow.Vector.VectorSchemaRoot.getVectorByName("name", root) |> Interop.Apache.Arrow.Vector.ImpFieldVector.fromFieldVector;
+            Interop.Apache.Arrow.Vector.VectorSchemaRoot.getVectorNamed("name", root) |> Interop.Apache.Arrow.Vector.ImpFieldVector.fromFieldVector;
         let nameVector1 = Interop.Apache.Arrow.Vector.SubBaseVariableWidthVector.toBaseVariableWidthVector(nameVector);
         Interop.Apache.Arrow.Vector.VectorSchemaRoot.setRowCount!(3, root);
         Interop.Apache.Arrow.Vector.BaseFixedWidthVector.allocateNewWithSize(3, ageVector1);

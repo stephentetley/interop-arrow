@@ -46,6 +46,11 @@ mod Interop.Apache.Arrow.Vector.Table.Row {
         Row(new1(t1))
 
 
+    pub def next!(row: Row[r]): Row[r] \ r = 
+        import org.apache.arrow.vector.table.Row.next(): ##org.apache.arrow.vector.table.Row \ r;
+        let Row(row1) = row;
+        Row(next(row1))
+
     pub def resetPosition!(row: Row[r]): Row[r] \ r = 
         import org.apache.arrow.vector.table.Row.resetPosition(): ##org.apache.arrow.vector.table.Row \ r;
         let Row(row1) = row;
@@ -56,4 +61,106 @@ mod Interop.Apache.Arrow.Vector.Table.Row {
         let Row(row1) = row;
         Row(setPosition(row1, n))
 
+    /// Follows Arrow naming not Flix's (might change...)
+    pub def getBigIntNamed(columnName: {columnName = String}, row: Row[r]): Result[String, Int64] \ r = 
+        Result.tryCatch(_ -> {
+            import org.apache.arrow.vector.table.Row.getBigInt(String): Int64 \ r;
+            let Row(row1) = row;
+            getBigInt(row1, columnName.columnName)
+        })
+
+    /// Follows Arrow naming not Flix's (might change...)
+    pub def getBigIntAt(columnIndex: {columnIndex = Int32}, row: Row[r]): Result[String, Int64] \ r = 
+        Result.tryCatch(_ -> {
+            import org.apache.arrow.vector.table.Row.getBigInt(Int32): Int64 \ r;
+            let Row(row1) = row;
+            getBigInt(row1, columnIndex.columnIndex)
+        })
+
+    pub def getBitNamed(columnName: {columnName = String}, row: Row[r]): Result[String, Int32] \ r = 
+        Result.tryCatch(_ -> {
+            import org.apache.arrow.vector.table.Row.getBit(String): Int32 \ r;
+            let Row(row1) = row;
+            getBit(row1, columnName.columnName)
+        })
+
+    pub def getBitAt(columnIndex: {columnIndex = Int32}, row: Row[r]): Result[String, Int32] \ r = 
+        Result.tryCatch(_ -> {
+            import org.apache.arrow.vector.table.Row.getBit(Int32): Int32 \ r;
+            let Row(row1) = row;
+            getBit(row1, columnIndex.columnIndex)
+        })
+
+    pub def getDateDayNamed(columnName: {columnName = String}, row: Row[r]): Result[String, Int32] \ r = 
+        Result.tryCatch(_ -> {
+            import org.apache.arrow.vector.table.Row.getDateDay(String): Int32 \ r;
+            let Row(row1) = row;
+            getDateDay(row1, columnName.columnName)
+        })
+
+    pub def getDateDayAt(columnIndex: {columnIndex = Int32}, row: Row[r]): Result[String, Int32] \ r = 
+        Result.tryCatch(_ -> {
+            import org.apache.arrow.vector.table.Row.getDateDay(Int32): Int32 \ r;
+            let Row(row1) = row;
+            getDateDay(row1, columnIndex.columnIndex)
+        })
+
+    pub def getDateMilliNamed(columnName: {columnName = String}, row: Row[r]): Result[String, Int64] \ r = 
+        Result.tryCatch(_ -> {
+            import org.apache.arrow.vector.table.Row.getDateMilli(String): Int64 \ r;
+            let Row(row1) = row;
+            getDateMilli(row1, columnName.columnName)
+        })
+
+    pub def getDateMilliAt(columnIndex: {columnIndex = Int32}, row: Row[r]): Result[String, Int64] \ r = 
+        Result.tryCatch(_ -> {
+            import org.apache.arrow.vector.table.Row.getDateMilli(Int32): Int64 \ r;
+            let Row(row1) = row;
+            getDateMilli(row1, columnIndex.columnIndex)
+        })
+
+    pub def getDecimalObjNamed(columnName: {columnName = String}, row: Row[r]): Result[String, BigDecimal] \ r = 
+        Result.tryCatch(_ -> {
+            import org.apache.arrow.vector.table.Row.getDecimalObj(String): BigDecimal \ r;
+            let Row(row1) = row;
+            getDecimalObj(row1, columnName.columnName)
+        })
+
+    pub def getDecimalObjAt(columnIndex: {columnIndex = Int32}, row: Row[r]): Result[String, BigDecimal] \ r = 
+        Result.tryCatch(_ -> {
+            import org.apache.arrow.vector.table.Row.getDecimalObj(Int32): BigDecimal \ r;
+            let Row(row1) = row;
+            getDecimalObj(row1, columnIndex.columnIndex)
+        })
+
+
+    pub def getVarCharObjNamed(columnName: {columnName = String}, row: Row[r]): Result[String, String] \ r = 
+        Result.tryCatch(_ -> {
+            import org.apache.arrow.vector.table.Row.getVarCharObj(String): String \ r;
+            let Row(row1) = row;
+            getVarCharObj(row1, columnName.columnName)
+        })
+
+    pub def getVarCharObjAt(columnIndex: {columnIndex = Int32}, row: Row[r]): Result[String, String] \ r = 
+        Result.tryCatch(_ -> {
+            import org.apache.arrow.vector.table.Row.getVarCharObj(Int32): String \ r;
+            let Row(row1) = row;
+            getVarCharObj(row1, columnIndex.columnIndex)
+        })
+
+    pub def isNullNamed(columnName: {columnName = String}, row: Row[r]): Result[String, Bool] \ r = 
+        Result.tryCatch(_ -> {
+            import org.apache.arrow.vector.table.Row.isNull(String): Bool \ r;
+            let Row(row1) = row;
+            isNull(row1, columnName.columnName)
+        })
+
+            
+
+    pub def isNullAt(columnIndex: {columnIndex = Int32}, row: Row[r]): Result[String, Bool] \ r = 
+        Result.tryCatch(_ -> {
+            import org.apache.arrow.vector.table.Row.isNull(Int32): Bool \ r;
+            let Row(row1) = row;
+            isNull(row1, columnIndex.columnIndex)
+        })
 }

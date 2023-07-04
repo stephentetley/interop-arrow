@@ -36,7 +36,8 @@ mod Interop.Apache.Arrow.Vector.ValueVector {
     use Interop.Apache.Arrow.Vector.ValueVector.{ValueVector}
     use Interop.Apache.Arrow.Memory.BufferAllocator
     use Interop.Apache.Arrow.Memory.BufferAllocator.{BufferAllocator}
-
+    use Interop.Apache.Arrow.Vector.Types.Pojo.Field
+    use Interop.Apache.Arrow.Vector.Types.Pojo.Field.{Field}
 
     pub def getHH(v: ValueVector[r]): ##org.apache.arrow.vector.ValueVector = 
         let ValueVector(v1) = v;
@@ -62,25 +63,30 @@ mod Interop.Apache.Arrow.Vector.ValueVector {
         let ValueVector(v1) = v;
         clear(v1)
 
-    pub def getBufferSize(t: ValueVector[r]): Int32 \ r = 
+    pub def getBufferSize(v: ValueVector[r]): Int32 \ r = 
         import org.apache.arrow.vector.ValueVector.getBufferSize(): Int32 \ r;
-        let ValueVector(t1) = t;
-        getBufferSize(t1)
+        let ValueVector(v1) = v;
+        getBufferSize(v1)
 
 
-    pub def getBufferSizeFor(valCount: Int32, t: ValueVector[r]): Int32 \ r = 
+    pub def getBufferSizeFor(valCount: Int32, v: ValueVector[r]): Int32 \ r = 
         import org.apache.arrow.vector.ValueVector.getBufferSizeFor(Int32): Int32 \ r;
-        let ValueVector(t1) = t;
-        getBufferSizeFor(t1, valCount)
+        let ValueVector(v1) = v;
+        getBufferSizeFor(v1, valCount)
 
-    pub def getName(t: ValueVector[r]): String \ r = 
+    pub def getField(v: ValueVector[r]): Field \ r = 
+        import org.apache.arrow.vector.ValueVector.getField(): ##org.apache.arrow.vector.types.pojo.Field \ r;
+        let ValueVector(v1) = v;
+        Field(getField(v1))
+
+    pub def getName(v: ValueVector[r]): String \ r = 
         import org.apache.arrow.vector.ValueVector.getName(): String \ r;
-        let ValueVector(t1) = t;
-        getName(t1)
+        let ValueVector(v1) = v;
+        getName(v1)
 
-    pub def getNullCount(t: ValueVector[r]): Int32 \ r = 
+    pub def getNullCount(v: ValueVector[r]): Int32 \ r = 
         import org.apache.arrow.vector.ValueVector.getNullCount(): Int32 \ r;
-        let ValueVector(t1) = t;
-        getNullCount(t1)
+        let ValueVector(v1) = v;
+        getNullCount(v1)
 
 }
