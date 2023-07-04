@@ -16,11 +16,23 @@
 
 mod Interop.Apache.Arrow.Vector.Types {
 
+    use Interop.Apache.Arrow.Vector.Types.TimeUnit.{TimeUnit}
+    use Interop.Lang.Enum
+    use Interop.Lang.Enum.{Enum}
     
     /// Immutable
 
     pub enum TimeUnit(##org.apache.arrow.vector.types.TimeUnit)
 
+    instance Interop.Lang.SubEnum[TimeUnit] {
+        pub def toEnum(x: TimeUnit): Enum = 
+            let TimeUnit(x1) = x;
+            Enum(unchecked_cast(x1 as ##java.lang.Enum))
+
+        pub def fromEnum(x: Enum): TimeUnit = 
+            let Enum(x1) = x;
+            TimeUnit(unchecked_cast(x1 as ##org.apache.arrow.vector.types.TimeUnit))
+    }
 
 }
 
@@ -38,6 +50,21 @@ mod Interop.Apache.Arrow.Vector.Types.TimeUnit {
         TimeUnit(prim)
 
 
+    pub def microsecond(): TimeUnit = 
+        import static get org.apache.arrow.vector.types.TimeUnit.MICROSECOND: ##org.apache.arrow.vector.types.TimeUnit \ {} as get_MICROSECOND;
+        TimeUnit(get_MICROSECOND())
+
+    pub def millisecond(): TimeUnit = 
+        import static get org.apache.arrow.vector.types.TimeUnit.MILLISECOND: ##org.apache.arrow.vector.types.TimeUnit \ {} as get_MILLISECOND;
+        TimeUnit(get_MILLISECOND())
+
+    pub def nanosecond(): TimeUnit = 
+        import static get org.apache.arrow.vector.types.TimeUnit.NANOSECOND: ##org.apache.arrow.vector.types.TimeUnit \ {} as get_NANOSECOND;
+        TimeUnit(get_NANOSECOND())
+
+    pub def second(): TimeUnit = 
+        import static get org.apache.arrow.vector.types.TimeUnit.SECOND: ##org.apache.arrow.vector.types.TimeUnit \ {} as get_SECOND;
+        TimeUnit(get_SECOND())
 
 
 }

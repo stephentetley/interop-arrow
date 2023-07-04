@@ -16,11 +16,23 @@
 
 mod Interop.Apache.Arrow.Vector.Types {
 
+    use Interop.Apache.Arrow.Vector.Types.DateUnit.{DateUnit}
+    use Interop.Lang.Enum
+    use Interop.Lang.Enum.{Enum}
     
     /// Immutable
 
     pub enum DateUnit(##org.apache.arrow.vector.types.DateUnit)
 
+    instance Interop.Lang.SubEnum[DateUnit] {
+        pub def toEnum(x: DateUnit): Enum = 
+            let DateUnit(x1) = x;
+            Enum(unchecked_cast(x1 as ##java.lang.Enum))
+
+        pub def fromEnum(x: Enum): DateUnit = 
+            let Enum(x1) = x;
+            DateUnit(unchecked_cast(x1 as ##org.apache.arrow.vector.types.DateUnit))
+    }
 
 }
 
@@ -38,6 +50,12 @@ mod Interop.Apache.Arrow.Vector.Types.DateUnit {
         DateUnit(prim)
 
 
+    pub def day(): DateUnit = 
+        import static get org.apache.arrow.vector.types.DateUnit.DAY: ##org.apache.arrow.vector.types.DateUnit \ {} as get_DAY;
+        DateUnit(get_DAY())
 
+    pub def millisecond(): DateUnit = 
+        import static get org.apache.arrow.vector.types.DateUnit.MILLISECOND: ##org.apache.arrow.vector.types.DateUnit \ {} as get_MILLISECOND;
+        DateUnit(get_MILLISECOND())
 
 }

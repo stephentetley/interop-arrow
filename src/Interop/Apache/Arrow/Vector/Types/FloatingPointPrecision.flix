@@ -16,11 +16,23 @@
 
 mod Interop.Apache.Arrow.Vector.Types {
 
+    use Interop.Apache.Arrow.Vector.Types.FloatingPointPrecision.{FloatingPointPrecision}
+    use Interop.Lang.Enum
+    use Interop.Lang.Enum.{Enum}
     
     /// Immutable
 
     pub enum FloatingPointPrecision(##org.apache.arrow.vector.types.FloatingPointPrecision)
 
+    instance Interop.Lang.SubEnum[FloatingPointPrecision] {
+        pub def toEnum(x: FloatingPointPrecision): Enum = 
+            let FloatingPointPrecision(x1) = x;
+            Enum(unchecked_cast(x1 as ##java.lang.Enum))
+
+        pub def fromEnum(x: Enum): FloatingPointPrecision = 
+            let Enum(x1) = x;
+            FloatingPointPrecision(unchecked_cast(x1 as ##org.apache.arrow.vector.types.FloatingPointPrecision))
+    }
 
 }
 
@@ -38,6 +50,16 @@ mod Interop.Apache.Arrow.Vector.Types.FloatingPointPrecision {
         FloatingPointPrecision(prim)
 
 
+    pub def double(): FloatingPointPrecision = 
+        import static get org.apache.arrow.vector.types.FloatingPointPrecision.DOUBLE: ##org.apache.arrow.vector.types.FloatingPointPrecision \ {} as get_DOUBLE;
+        FloatingPointPrecision(get_DOUBLE())
 
+    pub def half(): FloatingPointPrecision = 
+        import static get org.apache.arrow.vector.types.FloatingPointPrecision.HALF: ##org.apache.arrow.vector.types.FloatingPointPrecision \ {} as get_HALF;
+        FloatingPointPrecision(get_HALF())
+
+    pub def single(): FloatingPointPrecision = 
+        import static get org.apache.arrow.vector.types.FloatingPointPrecision.SINGLE: ##org.apache.arrow.vector.types.FloatingPointPrecision \ {} as get_SINGLE;
+        FloatingPointPrecision(get_SINGLE())
 
 }
