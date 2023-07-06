@@ -36,6 +36,8 @@ mod Interop.Apache.Arrow.Vector.ValueVector {
     use Interop.Apache.Arrow.Vector.ValueVector.{ValueVector}
     use Interop.Apache.Arrow.Memory.BufferAllocator
     use Interop.Apache.Arrow.Memory.BufferAllocator.{BufferAllocator}
+    use Interop.Apache.Arrow.Vector.Types.MinorType
+    use Interop.Apache.Arrow.Vector.Types.MinorType.{MinorType}
     use Interop.Apache.Arrow.Vector.Types.Pojo.Field
     use Interop.Apache.Arrow.Vector.Types.Pojo.Field.{Field}
 
@@ -63,6 +65,12 @@ mod Interop.Apache.Arrow.Vector.ValueVector {
         let ValueVector(v1) = v;
         clear(v1)
 
+    pub def getAllocator(v: ValueVector[r]): BufferAllocator[r] \ r = 
+        import org.apache.arrow.vector.ValueVector.getAllocator(): ##org.apache.arrow.memory.BufferAllocator \ r;
+        let ValueVector(v1) = v;
+        BufferAllocator(getAllocator(v1))
+
+
     pub def getBufferSize(v: ValueVector[r]): Int32 \ r = 
         import org.apache.arrow.vector.ValueVector.getBufferSize(): Int32 \ r;
         let ValueVector(v1) = v;
@@ -78,6 +86,12 @@ mod Interop.Apache.Arrow.Vector.ValueVector {
         import org.apache.arrow.vector.ValueVector.getField(): ##org.apache.arrow.vector.types.pojo.Field \ r;
         let ValueVector(v1) = v;
         Field(getField(v1))
+
+    pub def getMinorType(v: ValueVector[r]): MinorType \ r = 
+        import org.apache.arrow.vector.ValueVector.getMinorType(): ##org.apache.arrow.vector.types.Types$MinorType \ r;
+        let ValueVector(v1) = v;
+        MinorType(getMinorType(v1))
+
 
     pub def getName(v: ValueVector[r]): String \ r = 
         import org.apache.arrow.vector.ValueVector.getName(): String \ r;
