@@ -58,16 +58,16 @@ mod Interop.Apache.Arrow.Vector.BigIntVector {
         BigIntVector(new1(name, alloc1))
 
 
-    pub def getAt(ix: Int32, v: BigIntVector[r]): Result[String, Int64] \ r = 
+    pub def getAt(index: {index = Int32}, v: BigIntVector[r]): Result[String, Int64] \ r = 
         Result.tryCatch(_ -> {
             import org.apache.arrow.vector.BigIntVector.get(Int32): Int64 \ r as get1;
             let BigIntVector(v1) = v;
-            get1(v1, ix)
+            get1(v1, index.index)
         })
 
-    pub def setAt(ix: Int32, value: Int64, v: BigIntVector[r]): Unit \ r = 
+    pub def setAt!(index: {index = Int32}, value: Int64, v: BigIntVector[r]): Unit \ r = 
         import org.apache.arrow.vector.BigIntVector.set(Int32, Int64): Unit \ r as set1;
         let BigIntVector(v1) = v;
-        set1(v1, ix, value)
+        set1(v1, index.index, value)
 
 }

@@ -53,6 +53,8 @@ mod Interop.Apache.Arrow.Vector.VarCharVector {
     use Interop.Apache.Arrow.Vector.VarCharVector.{VarCharVector}
     use Interop.Apache.Arrow.Memory.BufferAllocator
     use Interop.Apache.Arrow.Memory.BufferAllocator.{BufferAllocator}
+    use Interop.Apache.Arrow.Vector.Util.Text
+    use Interop.Apache.Arrow.Vector.Util.Text.{Text}
 
 
     pub def getHH(v: VarCharVector[r]): ##org.apache.arrow.vector.VarCharVector = 
@@ -75,10 +77,21 @@ mod Interop.Apache.Arrow.Vector.VarCharVector {
 
 
     /// TODO null...
-    pub def getAt(ix: Int32, v: VarCharVector[r]): Array[Int8, r1] \ r + r1 = 
-        import org.apache.arrow.vector.VarCharVector.get(Int32): Array[Int8, r1] \ r + r1 as get1;
+    pub def getAt(index: {index = Int32}, v: VarCharVector[r]): Array[Int8, r] \ r = 
+        import org.apache.arrow.vector.VarCharVector.get(Int32): Array[Int8, r] \ r as get1;
         let VarCharVector(v1) = v;
-        get1(v1, ix)
+        get1(v1, index.index)
 
+
+    pub def getObject(index: {index = Int32}, v: VarCharVector[r]): Text[r] \ r = 
+        import org.apache.arrow.vector.VarCharVector.getObject(Int32): ##org.apache.arrow.vector.util.Text \ r;
+        let VarCharVector(v1) = v;
+        Text(getObject(v1, index.index))
+
+    pub def setAt!(index: {index = Int32}, t: Text[r], v: VarCharVector[r]): Unit \ r = 
+        import org.apache.arrow.vector.VarCharVector.set(Int32, ##org.apache.arrow.vector.util.Text): Unit \ r as set1;
+        let VarCharVector(v1) = v;
+        let Text(t1) = t;
+        set1(v1, index.index, t1)
 
 }
